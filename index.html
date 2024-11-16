@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>myMemoPad</title>
+  <script src="js/jquery-2.1.3.min.js"></script>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <h1>Task list</h1>
+  <h1 class="text1"> 📝タスクを記録する</h1>
+  <main>
+  <ul type="circle" id="list">
+    <li>
+<!-- ここに追加データが挿入される -->
+    </li>
+  </ul>
+
+  
+  
+  <div class="input-area">
+      <input id="date" type="text" placeholder="日付を入力">
+      <textarea id="task" placeholder="タスクを入力"></textarea>   
+      <textarea id="memo" placeholder="メモを入力"></textarea>
+    </div>
+
+<dl class="typepriority-area">
+  <dd><select id="type">
+      <option value="palceholder">種別</option>
+      <option>仕事</option>
+      <option>家事</option>
+      <option>遊び</option>
+      <option>その他</option>
+    </select>
+  </dd>
+
+  <dd><select id="priority">
+      <option value="palceholder">優先度</option>
+      <option></option>
+      <option>高</option>
+      <option>中</option>
+      <option>低</option>
+    </select>
+  </dd>
+</dl>
+
+  
+  
+    <div class="button-area">
+      <button id="save">記録</button>
+      <button id="clear">全て削除</button>
+    </div>
+  </main>
+
+  
+  <footer>
+    Gs
+  </footer>
+  <!-- 以下にjsを書いていきます -->
+  <script>
+
+    const iceList = document.getElementById("ice-list");
+
+    //1.Save クリックイベント
+    //選択された要素（ここでは#title）に入力されている値を取得します。
+    $("#save").on("click", function () {
+      
+      const date = $("#date").val();
+      const taskData = {
+      type : $("#type").val(),
+      task : $("#task").val(),
+      priority: $("#priority").val(),
+      memo : $("#memo").val(),
+      
+      }
+
+      localStorage.setItem(date, taskData);
+      
+      const html = `
+      <li>
+        <p>日付：${date}</p>
+        <p>種別：${taskData.type}</p>
+        <p>タスク：${taskData.task}</p>
+        <p>優先度：${taskData.priority}</p>
+        <p>メモ：${taskData.memo}</p>
+      </li>
+    `;
+      $("#list").append(html);
+      //$("#list").hide().fadeIn();
+    });
+
+
+
+    //2.clear クリックイベント
+    $("#clear").on("click", function () {
+      localStorage.clear();
+      $("#list").empty();
+    });
+
+
+    //3.ページ読み込み：保存データ取得表示
+    for (let i = 0; i < localStorage.length; i++) {
+      const date = localStorage.key(i);
+      const value = localStorage.getItem(date);
+      const html = `
+      <li>
+        <p>日付：${date}</p>
+        <p>種別：${taskData.type}</p>
+        <p>タスク：${taskData.task}</p>
+        <p>メモ：${taskData.memo}</p>
+      </li>
+    `;
+      //$("#list").append(html);
+      $("#list").hide().fadeIn();
+    }
+
+  </script>
+</body>
+
+</html>
